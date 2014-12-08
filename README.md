@@ -17,8 +17,7 @@ _/_____|___|/____/__________|/____(___ _/_____(__)_/___(___/_/___/_(___ _/_____
 Simply <strong>Drag&Drop</strong> a bunch of files or folders on the RVTVersioner.exe, and select one of the following actions to apply on all the .rvt files found.
 
 * <strong>Rename:</strong> appends a _YEAR (eg "SampleRevitProject_2015.rvt")
-* <strong>List:</strong> lists the files and their year Version without renaming
-* <strong>Undo:</strong>  removes the _YEAR from all .rvt files that have it
+* <strong>cLean:</strong>  removes the _YEAR from all .rvt files that have it
 * <strong>Cancel:</strong> quits the application
 
 No need to have Autodesk Revit installed!
