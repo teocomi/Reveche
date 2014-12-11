@@ -67,8 +67,12 @@ matteocominetti.com
                 foreach (var s in args)
                 {
                     if (Directory.Exists(s))
-                        RevitFiles.AddRange(Directory.GetFiles(s, "*.rvt", SearchOption.AllDirectories));
-                    else if (File.Exists(s) && Path.GetExtension(s).ToLowerInvariant() == ".rvt")
+                        RevitFiles.AddRange(
+                            Directory
+                            .EnumerateFiles(s)
+                            .Where(file => file.ToLower().EndsWith("rvt") || file.ToLower().EndsWith("rfa") || s.ToLower().EndsWith("rte") || s.ToLower().EndsWith("rtf"))
+                            .ToList());
+                    else if (File.Exists(s) && (s.ToLower().EndsWith("rvt") || s.ToLower().EndsWith("rfa") || s.ToLower().EndsWith("rte") || s.ToLower().EndsWith("rtf")))
                         RevitFiles.Add(s);
 
                 }
@@ -77,7 +81,7 @@ matteocominetti.com
                 {
                     Console.WriteLine(@"USAGE:" +
                                       "Drag and Drop one or more files/folders on this executable. " +
-                                      "You will be prompted if you want to rename the .rvt files found" +
+                                      "You will be prompted if you want to rename the Revit files found" +
                                       " appending the _YEAR to the filename or if you just want to clean their names.");
 
                     Console.ReadKey();
@@ -86,7 +90,7 @@ matteocominetti.com
                 //no valid files found
                 if (RevitFiles.Count == 0)
                 {
-                    Console.WriteLine("No Revit .rvt files found!");
+                    Console.WriteLine("No Revit files found!");
                     Console.ReadKey();
                     return;
                 }
@@ -97,7 +101,7 @@ matteocominetti.com
 I found " + RevitFiles.Count + " Revit file" + plural + ", do you want to Rename, cLean or Cancel?" +
                     @"
 Press one of the following keys on your keyboard to continue:
-R = Rename all .rvt files appending _YEAR
+R = Rename all Revit files appending _YEAR
 L = cLean, removes _YEAR from all .rvt files that have it
 C = Cancel and quit application");
                 while (true)
@@ -131,12 +135,14 @@ C = Cancel and quit application");
         {
             Console.WriteLine();
             if (key.Equals(ConsoleKey.H))
-                Console.WriteLine("{0,-6} {1,-35}",
+                Console.WriteLine("{0,-4} {1,-4} {2,-30}",
                     "YEAR",
+                    "EXT",
                     "FILENAME");
             else
-            Console.WriteLine("{0,-6} {1,-35} {2,-35}",
+                Console.WriteLine("{0,-4} {1,-4} {2,-30} {3,-30}",
                            "YEAR",
+                           "EXT",
                            "FILENAME",
                            "NEWNAME");
 
@@ -162,6 +168,7 @@ C = Cancel and quit application");
                 char[] charsToTrim = { ' ' };
                 string filename = Path.GetFileNameWithoutExtension(pathToRevitFile);
                 string newname = "";
+                string extension = Path.GetExtension(pathToRevitFile);
                 string cleanfilename = EndYear.Replace(filename, "");
                 //remove trailing spaces
                 cleanfilename = cleanfilename.TrimEnd(charsToTrim);
@@ -175,7 +182,7 @@ C = Cancel and quit application");
                     {
                         //version is the appended year to the file
                         version = match.Value.Replace("_", "");
-                        newname = cleanfilename + ".rvt";
+                        newname = cleanfilename + extension;
                         File.Move(pathToRevitFile,
                             Path.Combine(directory, newname));
                         
@@ -191,14 +198,14 @@ C = Cancel and quit application");
                     if (key.Equals(ConsoleKey.R) && version != "????")
                     {
                         //rename file
-                        newname = cleanfilename + "_" + version + ".rvt";
+                        newname = cleanfilename + "_" + version + extension;
                         File.Move(pathToRevitFile,
                             Path.Combine(directory, newname));
                     }
                 }
-                
-                Console.WriteLine("{0,-6} {1,-35} {2,-35}",
-                    version, filename, newname);
+
+                Console.WriteLine("{0,-4} {1,-4} {2,-30} {3,-30}",
+                    version, extension, filename, newname);
 
 
             }
