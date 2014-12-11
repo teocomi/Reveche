@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle( "RevitBasicFileInfo" )]
-[assembly: AssemblyDescription( "" )]
+[assembly: AssemblyTitle("RVTVersioner")]
+[assembly: AssemblyDescription( "Revit Files Version" )]
 [assembly: AssemblyConfiguration( "" )]
-[assembly: AssemblyCompany( "Autodesk, Inc." )]
-[assembly: AssemblyProduct( "RevitBasicFileInfo" )]
-[assembly: AssemblyCopyright( "Copyright © Autodesk, Inc. 2013" )]
+[assembly: AssemblyCompany( "teocomi" )]
+[assembly: AssemblyProduct( "RVTVersioner" )]
+[assembly: AssemblyCopyright( "Copyright © teocomi, Inc. 2014" )]
 [assembly: AssemblyTrademark( "" )]
 [assembly: AssemblyCulture( "" )]
 
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion( "1.0.0.0" )]
-[assembly: AssemblyFileVersion( "1.0.0.0" )]
+[assembly: AssemblyVersion( "1.1.0.0" )]
+[assembly: AssemblyFileVersion( "1.1.0.0" )]

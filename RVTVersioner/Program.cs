@@ -63,7 +63,7 @@ matteocominetti.com
                     );
                 List<String> RevitFiles = new List<string>();
 
-                //seach subdirectories for .rvt files
+                //seach subdirectories for revit files
                 foreach (var s in args)
                 {
                     if (Directory.Exists(s))
