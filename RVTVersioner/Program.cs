@@ -133,6 +133,8 @@ C = Cancel and quit application");
 
         private static void ProcessFiles(List<String> RevitFiles, ConsoleKey key)
         {
+            try
+            {
             Console.WriteLine();
             if (key.Equals(ConsoleKey.H))
                 Console.WriteLine("{0,-4} {1,-4} {2,-30}",
@@ -155,6 +157,12 @@ C = Cancel and quit application");
                     continue;
                 }
                     ProcessFilesLoop(revitFile, key);
+            }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.ReadKey();
             }
            
         }
