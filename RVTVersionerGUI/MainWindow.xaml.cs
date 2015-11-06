@@ -36,6 +36,7 @@ namespace RVTVersionerGUI
 
         private static Regex FoundYear = new Regex(@"\s\d{4}\s");
         private ObservableCollection<RevitFile> SourceCollection = new ObservableCollection<RevitFile>();
+        List<String> RevitFiles = new List<string>();
 
         public MainWindow()
         {
@@ -83,26 +84,26 @@ namespace RVTVersionerGUI
                 FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
                 string version = fvi.FileVersion;
 
-                List<String> RevitFiles = new List<string>();
+                RevitFiles = new List<string>();
+              var start = DateTime.Now;
 
                 //seach subdirectories for revit files
                 foreach (var s in files)
                 {
-                    if (Directory.Exists(s))
-                        RevitFiles.AddRange(
-                            Directory
-                                .EnumerateFiles(s)
-                                .Where(
-                                    file =>
-                                        file.ToLower().EndsWith("rvt") || file.ToLower().EndsWith("rfa") ||
-                                        s.ToLower().EndsWith("rte") || s.ToLower().EndsWith("rtf"))
-                                .ToList());
+                  if (Directory.Exists(s))
+                  {
+                    RevitFiles.AddRange(Directory.GetFiles(s, "*.rvt", SearchOption.AllDirectories).ToList());
+                    RevitFiles.AddRange(Directory.GetFiles(s, "*.rfa", SearchOption.AllDirectories).ToList());
+                    
+                    //WalkDirectoryTree(new DirectoryInfo(s));
+                  }
+                        
                     else if (File.Exists(s) &&
-                             (s.ToLower().EndsWith("rvt") || s.ToLower().EndsWith("rfa") || s.ToLower().EndsWith("rte") ||
-                              s.ToLower().EndsWith("rtf")))
+                             (s.ToLower().EndsWith(".rvt") || s.ToLower().EndsWith(".rfa")))
                         RevitFiles.Add(s);
 
                 }
+                MessageBox.Show("Completed in "+(DateTime.Now-start).TotalSeconds.ToString() + " seconds.");
                 //user double clicked on the exe
                 if (files.Length == 0)
                 {
@@ -132,6 +133,46 @@ namespace RVTVersionerGUI
                 MessageBox.Show(ex.Message);
             }
         }
+     private void WalkDirectoryTree(System.IO.DirectoryInfo root)
+    {
+        System.IO.FileInfo[] files = null;
+        System.IO.DirectoryInfo[] subDirs = null;
+
+        // First, process all the files directly under this folder 
+        try
+        {
+          var dir = root.FullName;
+            RevitFiles.AddRange(
+                            Directory
+                                .EnumerateFiles(dir)
+                                .Where(
+                                    file =>
+                                        file.ToLower().EndsWith("rvt") || file.ToLower().EndsWith("rfa"))
+                                .ToList());
+        }
+        // This is thrown if even one of the files requires permissions greater 
+        // than the application provides. 
+        catch (UnauthorizedAccessException e)
+        {
+        }
+
+        catch (System.IO.DirectoryNotFoundException e)
+        {
+            Console.WriteLine(e.Message);
+        }
+        subDirs = root.GetDirectories();
+        if (subDirs != null)
+        {
+            // Now find all the subdirectories under this directory.
+            subDirs = root.GetDirectories();
+
+            foreach (System.IO.DirectoryInfo dirInfo in subDirs)
+            {
+                // Resursive call for each subdirectory.
+                WalkDirectoryTree(dirInfo);
+            }
+        }
+    }
 
         private void Window_DragOver(object sender, DragEventArgs e)
         {
@@ -418,9 +459,9 @@ namespace RVTVersionerGUI
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Cannot get StructuredStorageRoot: " + ex.Message);
-                    throw new StructuredStorageException(
-                        "Cannot get StructuredStorageRoot", ex);
+                    //MessageBox.Show("Cannot get StructuredStorageRoot: " + ex.Message);
+                    //throw new StructuredStorageException(
+                    //    "Cannot get StructuredStorageRoot", ex);
                 }
             }
 
@@ -435,33 +476,35 @@ namespace RVTVersionerGUI
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Cannot get StructuredStorageRoot: " + ex.Message);
-                    throw new StructuredStorageException(
-                        "Cannot get StructuredStorageRoot", ex);
+                    //MessageBox.Show("Cannot get StructuredStorageRoot: " + ex.Message);
+                    //throw new StructuredStorageException(
+                    //    "Cannot get StructuredStorageRoot", ex);
                 }
             }
 
-            private static object InvokeStorageRootMethod(
-                StorageInfo storageRoot,
-                string methodName,
-                params object[] methodArgs)
+            private static object InvokeStorageRootMethod(StorageInfo storageRoot,string methodName,params object[] methodArgs)
             {
-                Type storageRootType
-                    = typeof (StorageInfo).Assembly.GetType(
-                        "System.IO.Packaging.StorageRoot",
-                        true, false);
-
+              try
+              {
+                Type storageRootType = typeof (StorageInfo).Assembly.GetType("System.IO.Packaging.StorageRoot",false, false);
+               
                 object result = storageRootType.InvokeMember(
-                    methodName,
-                    BindingFlags.Static | BindingFlags.Instance
-                    | BindingFlags.Public | BindingFlags.NonPublic
-                    | BindingFlags.InvokeMethod,
-                    null, storageRoot, methodArgs);
+                  methodName,
+                  BindingFlags.Static | BindingFlags.Instance
+                  | BindingFlags.Public | BindingFlags.NonPublic
+                  | BindingFlags.InvokeMethod,
+                  null, storageRoot, methodArgs);
 
                 return result;
+              }
+              catch (Exception ex)
+              {
+              }
+              return null;
             }
 
-            private void CloseStorageRoot()
+              private
+              void CloseStorageRoot()
             {
                 InvokeStorageRootMethod(_storageRoot, "Close");
             }
