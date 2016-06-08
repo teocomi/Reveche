@@ -1,4 +1,4 @@
-[![logo](/assets/2014/11/logo.png)](http://teocomi.com/assets/2014/11/logo.png)
+[![logo](http://teocomi.com/assets/2014/11/logo.png)](http://teocomi.com/assets/2014/11/logo.png)
 
 **Revit Version Checker** is a simple standalone Windows app to check the version of your Autodesk Revit files (.rvt and .rfa).
 
@@ -6,7 +6,7 @@ Simply **Drag&Drop** a bunch of files or folders on the main Window and choose i
 
 No need to have Autodesk Revit installed!
 
-[![Revit Version Checker v2.0.0.0](http://teocomi.com/assets/2014/11/2015-01-10-15_51_21-Revit-Version-Checker-v2.0.0.0-470x244.png)](/assets/2014/11/2015-01-10-15_51_21-Revit-Version-Checker-v2.0.0.0.png)
+[![Revit Version Checker v2.0.0.0](http://teocomi.com/assets/2014/11/2015-01-10-15_51_21-Revit-Version-Checker-v2.0.0.0-470x244.png)](http://teocomi.com/assets/2014/11/2015-01-10-15_51_21-Revit-Version-Checker-v2.0.0.0-470x244.png)
 
 **Special thanks to Jeremy Tammik for the article [Basic File Info and RVT File Version](http://thebuildingcoder.typepad.com/blog/2013/01/basic-file-info-and-rvt-file-version.html)**
 
