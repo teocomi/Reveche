@@ -1,14 +1,3 @@
-RVT Versioner
-============
-```
- ___ __     _________ __     __                                             
-    /    ) |   /    /       |   /                                             
----/___ /--|--/----/--------|--/-----__----__---__---'----__----__----__----__-
-  /    |   | /    /         | /    /___) /   ) (_ ` /   /   ) /   ) /___) /   )
-_/_____|___|/____/__________|/____(___ _/_____(__)_/___(___/_/___/_(___ _/_____
-. 
-```
-
 [![logo](/assets/2014/11/logo.png)](http://teocomi.com/assets/2014/11/logo.png)
 
 **Revit Version Checker** is a simple standalone Windows app to check the version of your Autodesk Revit files (.rvt and .rfa).
@@ -34,4 +23,3 @@ For help/feedback you can contact me via email at: [hello@teocomi.com](mailto:he
 MIT LICENSE
 
 **N.B.** Revit Version Checker is not affiliated or endorsed or sponsored by [Autodesk Inc.](http://www.autodesk.com/).
-
