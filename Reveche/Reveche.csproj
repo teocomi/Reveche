@@ -7,8 +7,8 @@
     <ProjectGuid>{28B5B52B-E2A2-4F72-8B2C-66EEF04897CA}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RVTVersionerGUI</RootNamespace>
-    <AssemblyName>RVTVersionerGUI</AssemblyName>
+    <RootNamespace>Reveche</RootNamespace>
+    <AssemblyName>Reveche</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -57,6 +57,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converters\CountConverter.cs" />
+    <Compile Include="RevecheAction.cs" />
     <Compile Include="RevitFile.cs" />
     <Compile Include="Settings.cs" />
     <Page Include="MainWindow.xaml">

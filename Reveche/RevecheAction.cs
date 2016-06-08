@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RVTVersionerGUI
+namespace Reveche
 {
-    static class Settings
-    {
-        //public static string Action = true;
-    }
+  enum Action
+  {
+    Prepend,
+    Append,
+    Clear
+  };
 }

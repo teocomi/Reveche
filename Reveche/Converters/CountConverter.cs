@@ -2,7 +2,7 @@
 using System.Windows.Data;
 using System.Globalization;
 
-namespace RVTVersionerGUI.Converters
+namespace Reveche.Converters
 {
     [ValueConversion(typeof(Int16), typeof(String))]
     public class CountConverter : IValueConverter

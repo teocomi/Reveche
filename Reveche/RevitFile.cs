@@ -7,7 +7,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace RVTVersionerGUI
+namespace Reveche
 {
     class RevitFile : INotifyPropertyChanged
     {
@@ -69,21 +69,19 @@ namespace RVTVersionerGUI
             }
         }
 
-        public void RefreshName(string action)
+        public void RefreshName(Action action)
         {
             //by defaul remove any appended and prepended YEAR
             _newFilename = EndYear.Replace(Filename, "");
             _newFilename = StartYear.Replace(_newFilename, "");
 
-            if (action == "append")
-                _newFilename = _newFilename + "_" + Version;   
-            
-                
-            else if (action == "prepend")
+            if (action == Action.Append)
+                _newFilename = _newFilename + "_" + Version;
+
+
+            else if (action == Action.Prepend)
                 _newFilename = Version + "_" + _newFilename;
-            
-                
-        
+
             OnPropertyChanged("NewFilename");
         
         }
