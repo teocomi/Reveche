@@ -96,9 +96,8 @@ namespace Reveche
     }
 
 
-    private static string GetYearFromFileInfo(string pathToRevitFile, RevitFile rf)
+    private static void GetYearFromFileInfo(string pathToRevitFile, RevitFile rf)
     {
-      string version = "????";
       try
       {
         var rawData = GetRawBasicFileInfo(
@@ -121,17 +120,31 @@ namespace Reveche
             {
               rf.Version = match.Value.Replace(" ", "");
               rf.AdditionalInfo = info.Replace("Revit Build: ", "");
+              break;
             }
 
           }
 
+        }
+
+        //2019+ don't use the conventions above :(
+        if (string.IsNullOrEmpty(rf.Version))
+        {
+          try
+          {
+            rf.Version = fileInfoData[2].Replace("\u0012", "");
+            rf.AdditionalInfo = fileInfoData[3];
+          }
+          catch 
+          {
+            //nope
+          }
         }
       }
       catch (Exception ex)
       {
         MessageBox.Show(ex.Message);
       }
-      return version;
     }
 
    
