@@ -22,6 +22,8 @@ namespace Reveche
     private const string StreamName = "BasicFileInfo";
 
     private static Regex FoundYear = new Regex(@"\s\d{4}\s");
+    private static Regex FoundYear2019 = new Regex(@"^(\d{4})\u0012");
+
     private ObservableCollection<RevitFile> SourceCollection = new ObservableCollection<RevitFile>();
     List<String> RevitFiles = new List<string>();
 
@@ -130,14 +132,15 @@ namespace Reveche
         //2019+ don't use the conventions above :(
         if (string.IsNullOrEmpty(rf.Version))
         {
-          try
+          foreach (var info in fileInfoData.Select((val, i) => new { i, val }))
           {
-            rf.Version = fileInfoData[4].Replace("\u0012", "");
-            rf.AdditionalInfo = "Build: " + fileInfoData[5];
-          }
-          catch 
-          {
-            //nope
+            Match yearMatch = FoundYear2019.Match(info.val);
+          
+            if (yearMatch.Success) 
+            {
+              rf.Version = yearMatch.Groups[1].Value;
+              rf.AdditionalInfo = "Build: " + fileInfoData[info.i+1];
+            }
           }
         }
       }
