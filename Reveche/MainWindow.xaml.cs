@@ -132,8 +132,8 @@ namespace Reveche
         {
           try
           {
-            rf.Version = fileInfoData[2].Replace("\u0012", "");
-            rf.AdditionalInfo = fileInfoData[3];
+            rf.Version = fileInfoData[4].Replace("\u0012", "");
+            rf.AdditionalInfo = "Build: " + fileInfoData[5];
           }
           catch 
           {
