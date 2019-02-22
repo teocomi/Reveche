@@ -43,13 +43,20 @@
         <Canvas Grid.ColumnSpan="3" Name="whitespace" Grid.RowSpan="3" Background="WhiteSmoke" Opacity=".70" Panel.ZIndex="100" Visibility="Hidden" Grid.Row="1" />
 
 
-        <Label Grid.Row="0" Content="Drag and drop multiple Files and Flders, or use the 'Add Files' button." Margin="5"/>
+        <Label Grid.Row="0" Content="Drag and drop multiple Files and Folders, explore files to add with the 'Add Files' button or add files from a file list." Margin="5"/>
         <DockPanel Margin="5" Grid.Row="1">
             <Button ToolTip="Add Files" HorizontalAlignment="Left" Name="AddFilesBtn" Click="AddFilesBtn_OnClick"  >
                 <StackPanel Orientation="Horizontal">
                     <Path   Margin="5,0,0,0" Height="15" Width="15" Stretch="Uniform" Fill="Green"  Data="M50,100C22.4,100,0,77.6,0,50S22.4,0,50,0s50,22.4,50,50S77.6,100,50,100z M24.4,55.7h19.2V75H56V55.7h19.2
 	V43.5H56V24.2H43.6v19.2H24.4V55.7z" UseLayoutRounding="False"/>
                     <TextBlock Margin="5,2" Text="Add Files" />
+                </StackPanel>
+            </Button>
+            <Button ToolTip="Add Files from List"   Margin="5,0,0,0" HorizontalAlignment="Left" Name="AddFilesFromListBtn" Click="AddFilesFromListBtn_OnClick"  >
+                <StackPanel Orientation="Horizontal">
+                    <Path   Margin="5,0,0,0" Height="15" Width="15" Stretch="Uniform" Fill="Green"  Data="M50,100C22.4,100,0,77.6,0,50S22.4,0,50,0s50,22.4,50,50S77.6,100,50,100z M24.4,55.7h19.2V75H56V55.7h19.2
+	V43.5H56V24.2H43.6v19.2H24.4V55.7z" UseLayoutRounding="False"/>
+                    <TextBlock Margin="5,2" Text="Add Files From List" />
                 </StackPanel>
             </Button>
             <Button ToolTip="Remove selected files"  Margin="5,0,0,0"  Name="RemoveFilesBtn" Click="RemoveFilesBtn_OnClick" Style="{StaticResource ButtonListEnablerStyle}">
