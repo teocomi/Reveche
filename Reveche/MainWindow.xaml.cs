@@ -10,7 +10,7 @@ using System.IO.Packaging;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
-
+using System.Windows.Input;
 
 namespace Reveche
 {
@@ -33,6 +33,7 @@ namespace Reveche
       Title = "Revit Version Checker v" + Assembly.GetExecutingAssembly().GetName().Version;
       SourceFilesList.ItemsSource = SourceCollection;
     }
+
 
 
     private void ProcessSourceFiles(string[] files)
@@ -313,6 +314,32 @@ namespace Reveche
         MessageBox.Show("exception: " + ex1);
       }
     }
+    
+    private void Window_Paste( object sender, ExecutedRoutedEventArgs e ) {
+
+      try {
+        string text = Clipboard.GetText() as string;
+
+        if ( string.IsNullOrWhiteSpace( text ) )
+          return;
+
+        string[] lines = Regex.Split( text, "\r\n|\r|\n" );
+
+        List<string> fileList = new List<string>();
+
+        foreach ( var line in lines ) {
+
+          if ( File.Exists( line ) ) {
+            fileList.Add( line );
+          }
+        }
+
+        ProcessSourceFiles( fileList.ToArray() );
+      }
+      catch ( System.Exception ex1 ) {
+        MessageBox.Show( "exception: " + ex1 );
+      }
+    }
 
     private void Window_DragEnter(object sender, DragEventArgs e)
     {
@@ -344,6 +371,7 @@ namespace Reveche
     }
     #endregion
    
+
     #region version stuff
 
     // Code thanks to Jeremy Tammik
