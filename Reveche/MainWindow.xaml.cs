@@ -10,7 +10,7 @@ using System.IO.Packaging;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
-
+using System.Windows.Input;
 
 namespace Reveche
 {
@@ -35,6 +35,7 @@ namespace Reveche
       Title = "Revit Version Checker v" + Assembly.GetExecutingAssembly().GetName().Version;
       SourceFilesList.ItemsSource = SourceCollection;
     }
+
 
 
     private void ProcessSourceFiles(string[] files)
@@ -277,7 +278,31 @@ namespace Reveche
       }
     }
 
+    private void Window_Paste( object sender, ExecutedRoutedEventArgs e ) {
 
+      try {
+        string text = Clipboard.GetText() as string;
+
+        if ( string.IsNullOrWhiteSpace( text ) )
+          return;
+
+        string[] lines = Regex.Split( text, "\r\n|\r|\n" );
+
+        List<string> fileList = new List<string>();
+
+        foreach ( var line in lines ) {
+
+          if ( File.Exists( line ) ) {
+            fileList.Add( line );
+          }
+        }
+
+        ProcessSourceFiles( fileList.ToArray() );
+      }
+      catch ( System.Exception ex1 ) {
+        MessageBox.Show( "exception: " + ex1 );
+      }
+    }
 
     private void Window_DragEnter(object sender, DragEventArgs e)
     {
@@ -487,6 +512,43 @@ namespace Reveche
 
     #endregion
 
+    }
+  }
+
+  public static class Clipboard {
+    [DllImport( "user32.dll" )]
+    static extern IntPtr GetClipboardData( uint uFormat );
+    [DllImport( "user32.dll" )]
+    static extern bool IsClipboardFormatAvailable( uint format );
+    [DllImport( "user32.dll", SetLastError = true )]
+    static extern bool OpenClipboard( IntPtr hWndNewOwner );
+    [DllImport( "user32.dll", SetLastError = true )]
+    static extern bool CloseClipboard();
+    [DllImport( "kernel32.dll" )]
+    static extern IntPtr GlobalLock( IntPtr hMem );
+    [DllImport( "kernel32.dll" )]
+    static extern bool GlobalUnlock( IntPtr hMem );
+
+    const uint CF_UNICODETEXT = 13;
+
+    public static string GetText() {
+      if ( !IsClipboardFormatAvailable( CF_UNICODETEXT ) )
+        return null;
+      if ( !OpenClipboard( IntPtr.Zero ) )
+        return null;
+
+      string data = null;
+      var hGlobal = GetClipboardData( CF_UNICODETEXT );
+      if ( hGlobal != IntPtr.Zero ) {
+        var lpwcstr = GlobalLock( hGlobal );
+        if ( lpwcstr != IntPtr.Zero ) {
+          data = Marshal.PtrToStringUni( lpwcstr );
+          GlobalUnlock( lpwcstr );
+        }
+      }
+      CloseClipboard();
+
+      return data;
     }
   }
 }

@@ -24,6 +24,9 @@
         </ResourceDictionary>
 
     </Window.Resources>
+    <Window.CommandBindings>
+        <CommandBinding Command="Paste" Executed="Window_Paste"/>
+    </Window.CommandBindings>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
